@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt') 
 const User = require('../model/user') 
 const jwt = require('jsonwebtoken')
+require('dotenv').config();  
 
 exports.signup= (req,res,next)=>{
     bcrypt.hash(req.body.password, 10)
@@ -17,7 +18,7 @@ exports.signup= (req,res,next)=>{
 }
 
 exports.login=(req,res,next)=>{
-    User.findOne({email:req.body.email})
+    User.findOne({email:req.body.email}) 
     .then(user=>{
         if(user === null){
             res.status(401).json({message:'email/password incorect'})
@@ -28,10 +29,10 @@ exports.login=(req,res,next)=>{
                     res.status(401).json({message:'email/password incorect'})
                 }else{
                     res.status(200).json({
-                        userId: user._id,
+                        userId: user._id, 
                         token:jwt.sign(
                             {userId: user._id},
-                            'RANDOM-TOKEN-SECRET' ,
+                            process.env.RANDOM_TOKEN_SECRET ,  
                             {expiresIn:'24h'}
                         )
                     }) 
