@@ -1,9 +1,10 @@
 const express = require('express'); 
 const mongoose = require('mongoose')
+require('dotenv').config();  
 const bodyParser = require('body-parser') 
 const path = require('path');
 
-mongoose.connect('mongodb+srv://changxuhuang:hcx19950511@web-livres.rbz3j.mongodb.net/?retryWrites=true&w=majority&appName=Web-Livres',
+mongoose.connect(process.env.MONGODB_URI,  
     { useNewUrlParser: true, 
         useUnifiedTopology: true }
 )
