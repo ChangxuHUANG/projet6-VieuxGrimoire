@@ -44,7 +44,7 @@ exports.modifyBook = (req,res,next)=>{
             author:req.body.author,
             year:req.body.year, 
             genre:req.body.genre 
-            
+            // ...req.body
         };
 
     delete bookObject._userId;
@@ -54,7 +54,7 @@ exports.modifyBook = (req,res,next)=>{
         .then((book) => {
 
             if (book.userId !== req.auth.userId) {
-                return res.status(401).json({ message: 'Non autorisé' });
+                return res.status(403).json({ message: '403: unauthorized request ' }); 
             } 
 
             
@@ -64,7 +64,7 @@ exports.modifyBook = (req,res,next)=>{
                 const optimizedImagePath = `images/optimized_${req.file.filename}`;
                 sharp(req.file.path)
                     .resize(800)
-                    .toFormat('jpeg') 
+                    .toFormat('jpeg') //
                     .jpeg({ quality: 80 })
                     .toFile(optimizedImagePath) 
                     .then(() => {
